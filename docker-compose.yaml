@@ -9,6 +9,13 @@ services:
     command: "-m 8222 -js"  # Enable JetStream and monitoring on port 8222
     volumes:
       - nats-data:/data
+  nui:
+    image: ghcr.io/nats-nui/nui:latest
+    ports:
+      - "31311:31311"
+    volumes:
+      - nui-data:/db
 
 volumes:
   nats-data:
+  nui-data:
