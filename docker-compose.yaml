@@ -47,11 +47,7 @@ services:
     build:
       context: .
       dockerfile: build/Dockerfile
-    environment:
-      - KAFKA_BROKERS=kafka:9092
-      - TELEGRAM_BOT_TOKEN=<BOT_TOKEN>
-      - NATS_URL=nats://nats:4222
-      - LOG_LEVEL=DEBUG
+    env_file: ".env"
     volumes:
       - "./config:/config:ro"
 

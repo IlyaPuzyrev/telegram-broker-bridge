@@ -9,6 +9,8 @@ import (
 	"time"
 
 	"github.com/segmentio/kafka-go"
+
+	"github.com/avast/retry-go/v5"
 )
 
 type KafkaClient struct {
@@ -62,7 +64,15 @@ func (c *KafkaClient) Connect(ctx context.Context) error {
 		Timeout: 10 * time.Second,
 	}
 
-	conn, err := dialer.DialContext(ctx, "tcp", c.brokers[0])
+	retrier := retry.NewWithData[*kafka.Conn](retry.Attempts(10), retry.Delay(1*time.Second))
+	conn, err := retrier.Do(func() (*kafka.Conn, error) {
+		conn, err := dialer.DialContext(ctx, "tcp", c.brokers[0])
+		if err != nil {
+			c.logger.Error("failed to connect to Kafka", "broker", c.brokers[0], "error", err)
+			return nil, fmt.Errorf("failed to connect to Kafka: %w", err)
+		}
+		return conn, err
+	})
 	if err != nil {
 		c.logger.Error("failed to connect to Kafka", "broker", c.brokers[0], "error", err)
 		return fmt.Errorf("failed to connect to Kafka: %w", err)

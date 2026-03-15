@@ -4,6 +4,7 @@ go 1.25.5
 
 require (
 	github.com/PaulSonOfLars/gotgbot/v2 v2.0.0-rc.34
+	github.com/avast/retry-go/v5 v5.0.0
 	github.com/expr-lang/expr v1.17.8
 	github.com/go-resty/resty/v2 v2.16.5
 	github.com/nats-io/nats.go v1.48.0
