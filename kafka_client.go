@@ -42,12 +42,13 @@ func NewKafkaClient(cfg KafkaClientConfig, logger *slog.Logger) *KafkaClient {
 	}
 
 	writer := &kafka.Writer{
-		Addr:         kafka.TCP(cfg.Brokers...),
-		Async:        cfg.Async,
-		Balancer:     &kafka.LeastBytes{},
-		BatchSize:    cfg.BatchSize,
-		BatchBytes:   cfg.BatchBytes,
-		RequiredAcks: requiredAcks,
+		Addr:                   kafka.TCP(cfg.Brokers...),
+		Async:                  cfg.Async,
+		Balancer:               &kafka.LeastBytes{},
+		BatchSize:              cfg.BatchSize,
+		BatchBytes:             cfg.BatchBytes,
+		RequiredAcks:           requiredAcks,
+		AllowAutoTopicCreation: true,
 	}
 
 	return &KafkaClient{

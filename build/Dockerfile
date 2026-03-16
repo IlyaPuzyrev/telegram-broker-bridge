@@ -13,9 +13,4 @@ FROM gcr.io/distroless/static-debian12:nonroot
 
 COPY --from=builder /app/telegram-nats-bridge /telegram-nats-bridge
 
-ENV TELEGRAM_BOT_TOKEN=
-ENV NATS_URL=
-ENV KAFKA_BROKERS=
-ENV LOG_LEVEL=
-
 CMD ["/telegram-nats-bridge", "run", "--config", "/config/config.yaml"]
